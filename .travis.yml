@@ -3,7 +3,7 @@ sudo: false
 jdk:
   - oraclejdk8
 before_install:
-  - mysql -e 'CREATE DATABASE test_base;'
-  - mysql -e 'CREATE USER admin WITH PASSWORD admin;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test_base;'
+  - mysql -e 'CREATE USER admin WITH PASSWORD 'admin';'
 install:
 - mvn clean install
