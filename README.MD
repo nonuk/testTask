@@ -27,3 +27,5 @@ The project is setup with spring-boot, for convince a the script run.sh can be u
 	./run.sh -c  -  To compile the project and then run it
 
 The project starts on port 8085
+
+[![Build Status](https://travis-ci.org/nonuk/testTask.svg?branch=master)](https://travis-ci.org/nonuk/testTask)
