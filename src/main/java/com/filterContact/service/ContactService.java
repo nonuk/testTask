@@ -19,35 +19,20 @@ public class ContactService {
     private ContactRepository contactRepository;
 
     /**
-     * Create and save to database Contact entity
-     * @param name not null name of Contact
-     * @return saved entity from database
-     */
-    public Contact create(String name) {
-        // Save entity Contact to database
-        return contactRepository.save(new Contact(name));
-    }
-
-    /**
      * Get partially all Contacts from DB and apply filter in {@link ContactService#getFilteredContacts(Pattern, Page)}
      * @param filterName regexp filter to contacts
      * @return Array of Contacts
      */
-    public List<Contact> getContactsByFilter(String filterName) {
-        // Compile pattern for regexp "filterName"
+    public ContactsDTO getContactsByFilter(String filterName) {
         Pattern pattern = Pattern.compile(filterName);
-        // Create first pageable with limit 100 records
         Pageable pageable = new PageRequest(0,100);
-        // Get Page of contacts from database with pagination
         Page<Contact> page = getAll(pageable);
-        //Get List of Contacts for first page with applying filter
-        List<Contact> contacts = getFilteredContacts(pattern, page);
-        //if we have more than one page, we should apply filter for all page and add result to contacts
+        ContactsDTO contactsDTO = new ContactsDTO(getFilteredContacts(pattern, page));
         while (page.hasNext()) {
             page = getAll(page.nextPageable());
-            contacts.addAll(getFilteredContacts(pattern, page));
+            contactsDTO.getContacts().addAll(getFilteredContacts(pattern, page));
         }
-        return contacts;
+        return contactsDTO;
     }
 
     /**
@@ -67,21 +52,5 @@ public class ContactService {
      */
     private Page<Contact> getAll(Pageable pageable) {
         return contactRepository.findAll(pageable);
-    }
-
-    /**
-     * Delete Contact from database
-     * @param id - Contact id
-     */
-    public Contact delete(Integer id) {
-        // Get Contact by id
-        Contact contact = contactRepository.findOne(id);
-        // Check for exist searched contact
-        if (contact == null) {
-            return null;
-        }
-        // delete Contact from database
-        contactRepository.delete(contact);
-        return contact;
     }
 }

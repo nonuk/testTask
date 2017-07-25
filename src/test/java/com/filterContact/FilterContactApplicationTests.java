@@ -2,6 +2,7 @@ package com.filterContact;
 
 import com.filterContact.entity.Contact;
 import com.filterContact.service.ContactService;
+import com.filterContact.service.ContactsDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class FilterContactApplicationTests {
      */
 	@Test
 	public void testGetContactsByFilter_NotStartWithA() {
-		List<Contact> contacts = contactService.getContactsByFilter("^A.*$");
+		List<Contact> contacts = contactService.getContactsByFilter("^A.*$").getContacts();
 		assertThat(contacts.size(), is(3));
 		contacts.forEach(contact -> {
 			assertFalse(contact.getName().startsWith("A"));
@@ -38,7 +39,7 @@ public class FilterContactApplicationTests {
 	 */
 	@Test
 	public void testGetContactsByFilter_NotContainsLetters() {
-		List<Contact> contacts = contactService.getContactsByFilter("^.*[aei].*$");
+		List<Contact> contacts = contactService.getContactsByFilter("^.*[aei].*$").getContacts();
 		assertThat(contacts.size(), is(3));
 		contacts.forEach(contact -> {
 			assertFalse(contact.getName().contains("a"));

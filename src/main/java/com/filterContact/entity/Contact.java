@@ -15,12 +15,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Contact {
 
-    /** Identifiable */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
-    /** Name of Contact */
     @NotNull(message = "Name is required!")
     private String name;
 
